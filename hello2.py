@@ -5,9 +5,9 @@ from gi.repository import Gtk
 class MyWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="こんにちは、世界！")
+        Gtk.Window.__init__(self, title = "こんにちは、世界！")
 
-        self.button = Gtk.Button(label="ここをクリックして下さい")
+        self.button = Gtk.Button(label = "ここをクリックして下さい")
         self.button.connect("clicked", self.on_button_clicked)
         self.add(self.button)
 
