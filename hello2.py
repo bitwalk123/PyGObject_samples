@@ -8,7 +8,6 @@ class MyWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="こんにちは、世界！")
-        self.set_default_size(0, 0)
 
         self.button = Gtk.Button(label="ここをクリックして下さい")
         self.button.connect("clicked", self.on_button_clicked)
