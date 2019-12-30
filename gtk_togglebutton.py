@@ -8,10 +8,11 @@ class MyWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="トグルボタン")
+        self.set_default_size(0, 0)
 
-        self.tbutton = Gtk.ToggleButton(label="クリックして下さい")
-        self.tbutton.connect("clicked", self.on_button_toggled)
-        self.add(self.tbutton)
+        self.tb = Gtk.ToggleButton(label="クリックして下さい")
+        self.tb.connect("clicked", self.on_button_toggled)
+        self.add(self.tb)
 
     def on_button_toggled(self, button):
         if button.get_active():

@@ -9,9 +9,9 @@ class MyWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="ボタン")
 
-        self.button = Gtk.Button(label="クリックして下さい")
-        self.button.connect("clicked", self.on_button_clicked)
-        self.add(self.button)
+        but = Gtk.Button(label="クリックして下さい")
+        but.connect("clicked", self.on_button_clicked)
+        self.add(but)
 
     def on_button_clicked(self, button):
         print("ボタンがクリックされました。")

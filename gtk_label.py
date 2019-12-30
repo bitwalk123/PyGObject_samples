@@ -8,9 +8,10 @@ class MyWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="ラベル")
+        self.set_default_size(0, 0)
 
-        self.label = Gtk.Label("これはラベルです。")
-        self.add(self.label)
+        lab = Gtk.Label(label="これはラベルです。")
+        self.add(lab)
 
 
 win = MyWindow()
