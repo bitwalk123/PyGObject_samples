@@ -10,16 +10,28 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="トグルボタン")
         self.set_default_size(0, 0)
 
-        self.tb = Gtk.ToggleButton(label="クリックして下さい")
-        self.tb.connect("clicked", self.on_button_toggled)
-        self.add(self.tb)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(hbox)
 
-    def on_button_toggled(self, button):
+        tb1 = Gtk.ToggleButton(label="トグルボタンＡ")
+        tb1.connect("clicked", self.on_button_toggled, "Ａ")
+        hbox.pack_start(tb1, True, True, 0)
+
+        tb2 = Gtk.ToggleButton(label="トグルボタンＢ")
+        tb2.connect("clicked", self.on_button_toggled, "Ｂ")
+        hbox.pack_start(tb2, True, True, 0)
+
+        tb3 = Gtk.ToggleButton(label="トグルボタンＣ")
+        tb3.connect("clicked", self.on_button_toggled, "Ｃ")
+        hbox.pack_start(tb3, True, True, 0)
+
+    def on_button_toggled(self, button, name):
         if button.get_active():
             state = "オン"
         else:
             state = "オフ"
-        print("トグルボタンは「" + state + "」になりました。")
+        print("トグルボタン" + name + "は「" + state + "」になりました。")
+
 
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)

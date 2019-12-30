@@ -10,16 +10,28 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="チェックボタン")
         self.set_default_size(0, 0)
 
-        cb = Gtk.CheckButton(label="クリックして下さい")
-        cb.connect("clicked", self.on_button_toggled)
-        self.add(cb)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(hbox)
 
-    def on_button_toggled(self, button):
+        cb1 = Gtk.CheckButton(label="チェックボタンＡ")
+        cb1.connect("clicked", self.on_button_toggled, "Ａ")
+        hbox.pack_start(cb1, True, True, 0)
+
+        cb2 = Gtk.CheckButton(label="チェックボタンＢ")
+        cb2.connect("clicked", self.on_button_toggled, "Ｂ")
+        hbox.pack_start(cb2, True, True, 0)
+
+        cb3 = Gtk.CheckButton(label="チェックボタンＣ")
+        cb3.connect("clicked", self.on_button_toggled, "Ｃ")
+        hbox.pack_start(cb3, True, True, 0)
+
+    def on_button_toggled(self, button, name):
         if button.get_active():
             state = "オン"
         else:
             state = "オフ"
-        print("チェックボタンは「" + state + "」になりました。")
+        print("チェックボタン" + name + "は「" + state + "」になりました。")
+
 
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)
