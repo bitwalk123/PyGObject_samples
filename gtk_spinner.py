@@ -14,7 +14,7 @@ class MyWindow(Gtk.Window):
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.add(hbox)
 
-        button = Gtk.ToggleButton("開始")
+        button = Gtk.ToggleButton(label="開始")
         button.set_active(False)
         hbox.pack_start(button, True, True, 0)
 
