@@ -10,20 +10,20 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="トグルボタン")
         self.set_default_size(0, 0)
 
-        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.add(hbox)
+        vbox = Gtk.VBox()
+        self.add(vbox)
 
         tb1 = Gtk.ToggleButton(label="トグルボタンＡ")
         tb1.connect("clicked", self.on_button_toggled, "Ａ")
-        hbox.pack_start(tb1, True, True, 0)
+        vbox.pack_start(tb1, True, True, 0)
 
         tb2 = Gtk.ToggleButton(label="トグルボタンＢ")
         tb2.connect("clicked", self.on_button_toggled, "Ｂ")
-        hbox.pack_start(tb2, True, True, 0)
+        vbox.pack_start(tb2, True, True, 0)
 
         tb3 = Gtk.ToggleButton(label="トグルボタンＣ")
         tb3.connect("clicked", self.on_button_toggled, "Ｃ")
-        hbox.pack_start(tb3, True, True, 0)
+        vbox.pack_start(tb3, True, True, 0)
 
     def on_button_toggled(self, button, name):
         if button.get_active():

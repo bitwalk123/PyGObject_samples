@@ -10,20 +10,20 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="チェックボタン")
         self.set_default_size(0, 0)
 
-        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.add(hbox)
+        vbox = Gtk.VBox()
+        self.add(vbox)
 
         cb1 = Gtk.CheckButton(label="チェックボタンＡ")
         cb1.connect("clicked", self.on_button_toggled, "Ａ")
-        hbox.pack_start(cb1, True, True, 0)
+        vbox.pack_start(cb1, True, True, 0)
 
         cb2 = Gtk.CheckButton(label="チェックボタンＢ")
         cb2.connect("clicked", self.on_button_toggled, "Ｂ")
-        hbox.pack_start(cb2, True, True, 0)
+        vbox.pack_start(cb2, True, True, 0)
 
         cb3 = Gtk.CheckButton(label="チェックボタンＣ")
         cb3.connect("clicked", self.on_button_toggled, "Ｃ")
-        hbox.pack_start(cb3, True, True, 0)
+        vbox.pack_start(cb3, True, True, 0)
 
     def on_button_toggled(self, button, name):
         if button.get_active():
