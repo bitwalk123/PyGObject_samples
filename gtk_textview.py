@@ -10,9 +10,12 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="テキストビュー")
         self.set_default_size(200, 200)
 
+        scr = Gtk.ScrolledWindow()
+        self.add(scr)
+
         tv = Gtk.TextView()
         tv.set_wrap_mode(wrap_mode=Gtk.WrapMode.WORD)
-        self.add(tv)
+        scr.add(tv)
 
 
 win = MyWindow()
