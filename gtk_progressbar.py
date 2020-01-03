@@ -23,7 +23,7 @@ class MyWindow(Gtk.Window):
         else:
             new_value = progressbar.get_fraction() + 0.01
 
-            #if new_value > 1:
+            # if new_value > 1:
             #    new_value = 0
 
             progressbar.set_fraction(new_value)

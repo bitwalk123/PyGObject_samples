@@ -6,6 +6,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 icons = ["edit-cut", "edit-paste", "edit-copy"]
 
+
 class MyWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="アイコンビュー")
