@@ -16,10 +16,10 @@ class MyWindow(Gtk.Window):
 
         but = Gtk.ToggleButton(label="\n開始\n")
         but.set_active(False)
-        hbox.pack_start(but, True, True, 0)
+        hbox.add(but)
 
         spi = Gtk.Spinner()
-        hbox.pack_start(spi, True, True, 0)
+        hbox.add(spi)
 
         but.connect("toggled", self.on_button_toggled, spi)
 

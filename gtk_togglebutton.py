@@ -15,15 +15,15 @@ class MyWindow(Gtk.Window):
 
         tb1 = Gtk.ToggleButton(label="トグルボタンＡ")
         tb1.connect("clicked", self.on_button_toggled, "Ａ")
-        vbox.pack_start(tb1, True, True, 0)
+        vbox.add(tb1)
 
         tb2 = Gtk.ToggleButton(label="トグルボタンＢ")
         tb2.connect("clicked", self.on_button_toggled, "Ｂ")
-        vbox.pack_start(tb2, True, True, 0)
+        vbox.add(tb2)
 
         tb3 = Gtk.ToggleButton(label="トグルボタンＣ")
         tb3.connect("clicked", self.on_button_toggled, "Ｃ")
-        vbox.pack_start(tb3, True, True, 0)
+        vbox.add(tb3)
 
     def on_button_toggled(self, button, name):
         if button.get_active():

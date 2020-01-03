@@ -15,15 +15,15 @@ class MyWindow(Gtk.Window):
 
         cb1 = Gtk.CheckButton(label="チェックボタンＡ")
         cb1.connect("clicked", self.on_button_toggled, "Ａ")
-        vbox.pack_start(cb1, True, True, 0)
+        vbox.add(cb1)
 
         cb2 = Gtk.CheckButton(label="チェックボタンＢ")
         cb2.connect("clicked", self.on_button_toggled, "Ｂ")
-        vbox.pack_start(cb2, True, True, 0)
+        vbox.add(cb2)
 
         cb3 = Gtk.CheckButton(label="チェックボタンＣ")
         cb3.connect("clicked", self.on_button_toggled, "Ｃ")
-        vbox.pack_start(cb3, True, True, 0)
+        vbox.add(cb3)
 
     def on_button_toggled(self, button, name):
         if button.get_active():

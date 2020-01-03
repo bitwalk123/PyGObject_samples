@@ -15,15 +15,15 @@ class MyWindow(Gtk.Window):
 
         rb1 = Gtk.RadioButton.new_with_label_from_widget(None, "ラジオボタンＡ")
         rb1.connect("toggled", self.on_button_toggled, "Ａ")
-        vbox.pack_start(rb1, True, True, 0)
+        vbox.add(rb1)
 
         rb2 = Gtk.RadioButton.new_with_mnemonic_from_widget(rb1, "ラジオボタンＢ")
         rb2.connect("toggled", self.on_button_toggled, "Ｂ")
-        vbox.pack_start(rb2, True, True, 0)
+        vbox.add(rb2)
 
         rb3 = Gtk.RadioButton.new_with_mnemonic_from_widget(rb1, "ラジオボタンＣ")
         rb3.connect("toggled", self.on_button_toggled, "Ｃ")
-        vbox.pack_start(rb3, True, True, 0)
+        vbox.add(rb3)
 
     def on_button_toggled(self, button, name):
         if button.get_active():
