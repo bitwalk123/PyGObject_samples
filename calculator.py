@@ -5,6 +5,7 @@ from gi.repository import Gtk
 
 
 class Calculator(Gtk.Window):
+    # key layout for calculator
     num_info = [["０", 0, 5, 1, 1],
                 ["１", 0, 4, 1, 1],
                 ["２", 1, 4, 1, 1],
@@ -28,29 +29,28 @@ class Calculator(Gtk.Window):
         self.set_default_size(0, 0)
         self.set_resizable(False)
 
+        self.make_gui_layout()
+
+        # initialize
+        self.set_value_to_display("0.")
+
+    def make_gui_layout(self):
         self.grid = Gtk.Grid(column_homogeneous=True)
         self.add(self.grid)
 
-        # Widgets
+        # Widgets for display
         self.ent = Gtk.Entry()
         self.ent.set_alignment(xalign=1.0)
         self.ent.set_editable(False)
         self.grid.attach(self.ent, 0, 0, 4, 1)
-
         self.num_keys()
         self.dot_key()
         self.func_keys()
 
         but_A = Gtk.Button(label="AC")  # All Clear
-        but_C = Gtk.Button(label="C")  # Clear
-
-        # Layout
-
         self.grid.attach(but_A, 0, 1, 1, 1)
+        but_C = Gtk.Button(label="C")   # Clear
         self.grid.attach(but_C, 1, 1, 1, 1)
-
-        # initialize
-        self.set_value_to_display("0.")
 
     def num_keys(self):
         for info in self.num_info:
