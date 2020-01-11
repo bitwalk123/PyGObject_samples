@@ -111,13 +111,31 @@ class Calculator(Gtk.Window):
             value_new = math.sqrt(value_current)
 
         disp_new = str(value_new)
+        result = self.re2.match(disp_new)
+        if result:
+            disp_new = result.group(1)
+
         self.ope_entered = True
         self.set_display(disp_new)
 
     def on_ope_button_clicked(self, button):
+        # get current value displayed
+        value_current = float(self.ent.get_text())
+        self.reg.put(value_current)
+
         text = button.get_label()
+        self.reg.put(button.get_label())
         self.ope_entered = True
-        print("ボタン「" + text + "」がクリックされました。")
+
+    def get_operand(self, text):
+        if text == "＋":
+            return "+"
+        if text == "−":
+            return "-"
+        if text == "×":
+            return "*"
+        if text == "÷":
+            return "/"
 
     def on_num_button_clicked(self, button):
         text = button.get_label()
