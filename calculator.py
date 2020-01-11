@@ -1,3 +1,5 @@
+# Calculator
+
 import gi
 import math
 import queue
