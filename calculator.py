@@ -124,6 +124,7 @@ class Calculator(Gtk.Window):
         self.ent = Gtk.Entry(name="Display")
         self.ent.set_alignment(xalign=1.0)
         self.ent.set_editable(False)
+        self.ent.set_can_focus(False)
         context = self.ent.get_style_context()
         context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
         self.grid.attach(self.ent, 0, 0, 4, 1)
