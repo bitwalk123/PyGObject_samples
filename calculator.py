@@ -1,12 +1,36 @@
 # Calculator
 
-import gi
 import math
 import queue
 import re
 
+import gi
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+
+# CSS
+CALCULATOR_CSS = '''
+button {
+    padding: 5px 25px;
+    margin: 1px;
+}
+#Base {
+    background: wheat;
+    margin: 2px;
+}
+#Display {
+    color: darkgreen;
+    font-size: x-large;
+    padding: 10px;
+    margin: 1px;
+}
+#Key {
+}
+#ClearKey {
+    background: thistle;
+    color: darkred;
+}'''
 
 
 class Calculator(Gtk.Window):
@@ -38,6 +62,13 @@ class Calculator(Gtk.Window):
     re1 = re.compile("([\-0-9]+)\.$")
     re2 = re.compile("([\-0-9]+\.)0$")
 
+    # CSS
+    provider = Gtk.CssProvider()
+    provider.load_from_data(CALCULATOR_CSS.encode('utf-8'))
+
+    # -------------------------------------------------------------------------
+    #  CONSTRUCTOR
+    # -------------------------------------------------------------------------
     def __init__(self):
         Gtk.Window.__init__(self, title="電卓")
         self.set_default_size(0, 0)
@@ -45,91 +76,25 @@ class Calculator(Gtk.Window):
 
         self.gui_layout()
 
-    def gui_layout(self):
-        self.grid = Gtk.Grid(column_homogeneous=True)
-        self.add(self.grid)
+    def get_display_string(self, value):
+        str_display = str(value)
 
-        # Widgets for display
-        self.ent = Gtk.Entry()
-        self.ent.set_alignment(xalign=1.0)
-        self.ent.set_editable(False)
-        self.grid.attach(self.ent, 0, 0, 4, 1)
-
-        self.key_dot()
-        self.keys_func()
-        self.keys_ope()
-        self.keys_num()
-
-        but_E = Gtk.Button(label="＝")  # Equal
-        but_E.connect("clicked", self.on_clear)
-        self.grid.attach(but_E, 2, 5, 1, 1)
-
-        but_C = Gtk.Button(label="C")  # Clear
-        but_C.connect("clicked", self.on_clear)
-        self.grid.attach(but_C, 0, 1, 1, 1)
-        # initialize
-        self.on_clear(but_C)
-
-    def key_dot(self):
-        but = Gtk.Button(label=self.dot_info[0])
-        but.connect("clicked", self.on_dot_button_clicked)
-        self.grid.attach(but, self.dot_info[1], self.dot_info[2], self.dot_info[3], self.dot_info[4])
-
-    def keys_func(self):
-        for info in self.func_info:
-            but = Gtk.Button(label=info[0])
-            but.connect("clicked", self.on_func_button_clicked)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
-
-    def keys_ope(self):
-        for info in self.ope_info:
-            but = Gtk.Button(label=info[0])
-            but.connect("clicked", self.on_ope_button_clicked)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
-
-    def keys_num(self):
-        for info in self.num_info:
-            but = Gtk.Button(label=info[0])
-            but.connect("clicked", self.on_num_button_clicked)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
-
-    def on_clear(self, button):
-        self.set_display("0.")
-        self.dot_entered = False
-        self.ope_entered = False
-
-    def on_dot_button_clicked(self, button):
-        self.dot_entered = True
-
-    def on_func_button_clicked(self, button):
-        # get current value displayed
-        value_current = float(self.ent.get_text())
-
-        text = button.get_label()
-        if text == "±":
-            value_new = value_current * -1
-
-        if text == "√":
-            value_new = math.sqrt(value_current)
-
-        disp_new = str(value_new)
-        result = self.re2.match(disp_new)
+        result = self.re2.match(str_display)
         if result:
-            disp_new = result.group(1)
+            str_display = result.group(1)
+            return str_display
 
-        self.ope_entered = True
-        self.set_display(disp_new)
+        return str_display
 
-    def on_ope_button_clicked(self, button):
-        # get current value displayed
-        value_current = float(self.ent.get_text())
-        self.reg.put(value_current)
+    def get_function_result(self, text, value):
+        # sign
+        if text == "±":
+            return value * -1
+        # square root
+        if text == "√":
+            return math.sqrt(value)
 
-        text = button.get_label()
-        self.reg.put(button.get_label())
-        self.ope_entered = True
-
-    def get_operand(self, text):
+    def get_operator(self, text):
         if text == "＋":
             return "+"
         if text == "−":
@@ -138,6 +103,127 @@ class Calculator(Gtk.Window):
             return "*"
         if text == "÷":
             return "/"
+
+    def gui_layout(self):
+        self.grid = Gtk.Grid(name="Base", column_homogeneous=True)
+        context = self.grid.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.add(self.grid)
+
+        # Widgets for display
+        self.ent = Gtk.Entry(name="Display")
+        self.ent.set_alignment(xalign=1.0)
+        self.ent.set_editable(False)
+        context = self.ent.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.grid.attach(self.ent, 0, 0, 4, 1)
+
+        self.key_dot()
+        self.keys_func()
+        self.keys_ope()
+        self.keys_num()
+
+        but_E = Gtk.Button(name="Key", label="＝")  # Equal
+        but_E.connect("clicked", self.on_equal)
+        context = but_E.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.grid.attach(but_E, 2, 5, 1, 1)
+
+        but_C = Gtk.Button(name="ClearKey", label="C")  # Clear
+        but_C.connect("clicked", self.on_clear)
+        context = but_C.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.grid.attach(but_C, 0, 1, 1, 1)
+
+        # initialize
+        self.on_clear(but_C)
+
+    def key_dot(self):
+        but = Gtk.Button(name="Key", label=self.dot_info[0])
+        but.connect("clicked", self.on_dot_button_clicked)
+        context = but.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.grid.attach(but, self.dot_info[1], self.dot_info[2], self.dot_info[3], self.dot_info[4])
+
+    def keys_func(self):
+        for info in self.func_info:
+            but = Gtk.Button(name="Key", label=info[0])
+            but.connect("clicked", self.on_func_button_clicked)
+            context = but.get_style_context()
+            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            self.grid.attach(but, info[1], info[2], info[3], info[4])
+
+    def keys_ope(self):
+        for info in self.ope_info:
+            but = Gtk.Button(name="Key", label=info[0])
+            but.connect("clicked", self.on_ope_button_clicked)
+            context = but.get_style_context()
+            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            self.grid.attach(but, info[1], info[2], info[3], info[4])
+
+    def keys_num(self):
+        for info in self.num_info:
+            but = Gtk.Button(name="Key", label=info[0])
+            but.connect("clicked", self.on_num_button_clicked)
+            context = but.get_style_context()
+            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            self.grid.attach(but, info[1], info[2], info[3], info[4])
+
+    def on_clear(self, button):
+        # display
+        self.set_display("0.")
+
+        # clear flag
+        self.dot_entered = False
+        self.ope_entered = False
+
+    def on_dot_button_clicked(self, button):
+        # flag
+        self.dot_entered = True
+
+    def on_equal(self, button):
+        expr = ""
+        while not self.reg.empty():
+            expr += self.reg.get()
+
+        expr += self.ent.get_text()
+
+        result = eval(expr)
+        disp_new = self.get_display_string(result)
+
+        # display
+        self.set_display(disp_new)
+
+        # flag
+        self.ope_entered = True
+
+    def on_func_button_clicked(self, button):
+        # get current value displayed
+        value_current = float(self.ent.get_text())
+
+        # get string from key label
+        text = button.get_label()
+
+        value_new = self.get_function_result(text, value_current)
+        disp_new = self.get_display_string(value_new)
+
+        # display
+        self.set_display(disp_new)
+
+        # flag
+        self.ope_entered = True
+
+    def on_ope_button_clicked(self, button):
+        # get current string displayed
+        disp_current = self.ent.get_text()
+        self.reg.put(disp_current)
+
+        # get string from key label
+        text = button.get_label()
+        self.reg.put(self.get_operator(text))
+
+        # flag
+        self.ope_entered = True
 
     def on_num_button_clicked(self, button):
         text = button.get_label()
@@ -162,7 +248,6 @@ class Calculator(Gtk.Window):
                 else:
                     result = self.re1.match(disp_current)
                     if result:
-                        print(result.group(1))
                         disp_new = result.group(1) + text_ascii + "."
                     else:
                         disp_new = disp_current + text_ascii
