@@ -15,46 +15,76 @@ button {
     padding: 5px 30px;
     margin: 1px;
 }
+entry {
+    padding: 10px;
+    margin: 1px;
+}
 #Base {
     background: wheat;
     margin: 2px;
 }
 #Display {
+    background: whitesmoke;
     color: darkgreen;
     font-size: x-large;
-    padding: 10px;
-    margin: 1px;
 }
 #Key {
+    background: lavender;
+    color: navy;
 }
-#ClearKey {
+#Ope {
+    background: lightCyan;
+    color: navy;
+}
+#Fnc {
+    background: moccasin;
+    color: navy;
+}
+#Cls {
     background: thistle;
     color: darkred;
 }'''
 
 
 class Calculator(Gtk.Window):
+    # -------------------------------------------------------------------------
+    #  CONSTANT
+    # -------------------------------------------------------------------------
     # key layout for calculator
-    num_info = [["０", 0, 5, 1, 1],
-                ["１", 0, 4, 1, 1],
-                ["２", 1, 4, 1, 1],
-                ["３", 2, 4, 1, 1],
-                ["４", 0, 3, 1, 1],
-                ["５", 1, 3, 1, 1],
-                ["６", 2, 3, 1, 1],
-                ["７", 0, 2, 1, 1],
-                ["８", 1, 2, 1, 1],
-                ["９", 2, 2, 1, 1]]
-    ope_info = [["＋", 3, 4, 1, 2],
-                ["ー", 3, 3, 1, 1],
-                ["×", 3, 2, 1, 1],
-                ["÷", 3, 1, 1, 1]]
-    func_info = [["±", 2, 1, 1, 1],
-                 ["√", 1, 1, 1, 1]]
+    keys_info = [
+        {"label": "Ｃ", "x": 0, "y": 1, "w": 1, "h": 1, "name": "Cls", "method": "on_clear"},
+        {"label": "√", "x": 1, "y": 1, "w": 1, "h": 1, "name": "Fnc", "method": "on_function"},
+        {"label": "±", "x": 2, "y": 1, "w": 1, "h": 1, "name": "Fnc", "method": "on_function"},
+        {"label": "÷", "x": 3, "y": 1, "w": 1, "h": 1, "name": "Ope", "method": "on_operation"},
+        {"label": "７", "x": 0, "y": 2, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "８", "x": 1, "y": 2, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "９", "x": 2, "y": 2, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "×", "x": 3, "y": 2, "w": 1, "h": 1, "name": "Ope", "method": "on_operation"},
+        {"label": "４", "x": 0, "y": 3, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "５", "x": 1, "y": 3, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "６", "x": 2, "y": 3, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "−", "x": 3, "y": 3, "w": 1, "h": 1, "name": "Ope", "method": "on_operation"},
+        {"label": "１", "x": 0, "y": 4, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "２", "x": 1, "y": 4, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "３", "x": 2, "y": 4, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "＋", "x": 3, "y": 4, "w": 1, "h": 2, "name": "Ope", "method": "on_operation"},
+        {"label": "０", "x": 0, "y": 5, "w": 1, "h": 1, "name": "Key", "method": "on_number"},
+        {"label": "・", "x": 1, "y": 5, "w": 1, "h": 1, "name": "Key", "method": "on_dot"},
+        {"label": "＝", "x": 2, "y": 5, "w": 1, "h": 1, "name": "Ope", "method": "on_equal"},
+    ]
 
+    # initial display
+    display_initial = "0."
     # max length
     max_chars = 16
 
+    # regular expression
+    re1 = re.compile("([\-0-9]+)\.$")
+    re2 = re.compile("([\-0-9]+\.)0$")
+
+    # -------------------------------------------------------------------------
+    #  INITIAL VALUE
+    # -------------------------------------------------------------------------
     # operation flag
     flag_dot = False
     flag_operation = False
@@ -62,10 +92,6 @@ class Calculator(Gtk.Window):
 
     # register for calculation
     reg = queue.Queue()
-
-    # regular expression
-    re1 = re.compile("([\-0-9]+)\.$")
-    re2 = re.compile("([\-0-9]+\.)0$")
 
     # CSS
     provider = Gtk.CssProvider()
@@ -103,7 +129,6 @@ class Calculator(Gtk.Window):
                 self.flag_error = True
                 return e
 
-
     def get_operator(self, text):
         if text == "＋":
             return "+"
@@ -122,6 +147,7 @@ class Calculator(Gtk.Window):
 
         # Widgets for display
         self.ent = Gtk.Entry(name="Display")
+        self.ent.set_text(self.display_initial)
         self.ent.set_alignment(xalign=1.0)
         self.ent.set_editable(False)
         self.ent.set_can_focus(False)
@@ -129,65 +155,25 @@ class Calculator(Gtk.Window):
         context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
         self.grid.attach(self.ent, 0, 0, 4, 1)
 
-        self.keys_func()
-        self.keys_ope()
-        self.keys_num()
-
-        but_D = Gtk.Button(name="Key", label="・")
-        but_D.connect("clicked", self.on_dot_button_clicked)
-        context = but_D.get_style_context()
-        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-        self.grid.attach(but_D, 1, 5, 1, 1)
-
-        but_E = Gtk.Button(name="Key", label="＝")  # Equal
-        but_E.connect("clicked", self.on_equal)
-        context = but_E.get_style_context()
-        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-        self.grid.attach(but_E, 2, 5, 1, 1)
-
-        but_C = Gtk.Button(name="ClearKey", label="C")  # Clear
-        but_C.connect("clicked", self.on_clear)
-        context = but_C.get_style_context()
-        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-        self.grid.attach(but_C, 0, 1, 1, 1)
-
-        # initialize
-        self.on_clear(but_C)
-
-    def keys_func(self):
-        for info in self.func_info:
-            but = Gtk.Button(name="Key", label=info[0])
-            but.connect("clicked", self.on_func_button_clicked)
+        for key in self.keys_info:
+            but = Gtk.Button(name=key["name"], label=key["label"])
+            method_name = key["method"]
+            method = getattr(self, method_name)
+            but.connect("clicked", method)
             context = but.get_style_context()
             context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
-
-    def keys_ope(self):
-        for info in self.ope_info:
-            but = Gtk.Button(name="Key", label=info[0])
-            but.connect("clicked", self.on_ope_button_clicked)
-            context = but.get_style_context()
-            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
-
-    def keys_num(self):
-        for info in self.num_info:
-            but = Gtk.Button(name="Key", label=info[0])
-            but.connect("clicked", self.on_num_button_clicked)
-            context = but.get_style_context()
-            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-            self.grid.attach(but, info[1], info[2], info[3], info[4])
+            self.grid.attach(but, key["x"], key["y"], key["w"], key["h"])
 
     def on_clear(self, button):
         # display
-        self.set_display("0.")
+        self.set_display(self.display_initial)
 
         # clear flag
         self.flag_dot = False
         self.flag_operation = False
         self.flag_error = False
 
-    def on_dot_button_clicked(self, button):
+    def on_dot(self, button):
         if self.flag_error:
             return
 
@@ -218,7 +204,7 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
-    def on_func_button_clicked(self, button):
+    def on_function(self, button):
         if self.flag_error:
             return
 
@@ -237,7 +223,7 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
-    def on_ope_button_clicked(self, button):
+    def on_operation(self, button):
         if self.flag_error:
             return
 
@@ -252,7 +238,7 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
-    def on_num_button_clicked(self, button):
+    def on_number(self, button):
         if self.flag_error:
             return
 
