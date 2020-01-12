@@ -107,6 +107,31 @@ class Calculator(Gtk.Window):
 
         self.gui_layout()
 
+    def gui_layout(self):
+        self.grid = Gtk.Grid(name="Base", column_homogeneous=True)
+        context = self.grid.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.add(self.grid)
+
+        # Widgets for display
+        self.ent = Gtk.Entry(name="Display")
+        self.ent.set_text(self.display_initial)
+        self.ent.set_alignment(xalign=1.0)
+        self.ent.set_editable(False)
+        self.ent.set_can_focus(False)
+        context = self.ent.get_style_context()
+        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        self.grid.attach(self.ent, 0, 0, 4, 1)
+
+        for key in self.keys_info:
+            but = Gtk.Button(name=key["name"], label=key["label"])
+            method_name = key["method"]
+            method = getattr(self, method_name)
+            but.connect("clicked", method)
+            context = but.get_style_context()
+            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            self.grid.attach(but, key["x"], key["y"], key["w"], key["h"])
+
     def get_display_string(self, value):
         str_display = str(value)
 
@@ -139,31 +164,18 @@ class Calculator(Gtk.Window):
         if text == "÷":
             return "/"
 
-    def gui_layout(self):
-        self.grid = Gtk.Grid(name="Base", column_homogeneous=True)
-        context = self.grid.get_style_context()
-        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-        self.add(self.grid)
+    def set_display(self, text):
+        length = len(text)
+        self.ent.set_text(text)
+        self.ent.set_position(length)
 
-        # Widgets for display
-        self.ent = Gtk.Entry(name="Display")
-        self.ent.set_text(self.display_initial)
-        self.ent.set_alignment(xalign=1.0)
-        self.ent.set_editable(False)
-        self.ent.set_can_focus(False)
-        context = self.ent.get_style_context()
-        context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-        self.grid.attach(self.ent, 0, 0, 4, 1)
+    def zenkaku_to_hankaku(self, text):
+        # ref: https://qiita.com/YuukiMiyoshi/items/6ce77bf402a29a99f1bf
+        return text.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
 
-        for key in self.keys_info:
-            but = Gtk.Button(name=key["name"], label=key["label"])
-            method_name = key["method"]
-            method = getattr(self, method_name)
-            but.connect("clicked", method)
-            context = but.get_style_context()
-            context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-            self.grid.attach(but, key["x"], key["y"], key["w"], key["h"])
-
+    # -------------------------------------------------------------------------
+    #  BINDINGS
+    # -------------------------------------------------------------------------
     def on_clear(self, button):
         # display
         self.set_display(self.display_initial)
@@ -275,18 +287,13 @@ class Calculator(Gtk.Window):
 
         self.set_display(disp_new)
 
-    def set_display(self, text):
-        length = len(text)
-        self.ent.set_text(text)
-        self.ent.set_position(length)
 
-    def zenkaku_to_hankaku(self, text):
-        # ref: https://qiita.com/YuukiMiyoshi/items/6ce77bf402a29a99f1bf
-        return text.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
-
-
+# -----------------------------------------------------------------------------
+#  MAIN
+# -----------------------------------------------------------------------------
 if __name__ == '__main__':
     win = Calculator()
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
     Gtk.main()
+# PROGRAM END
