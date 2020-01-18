@@ -102,6 +102,7 @@ class Calculator(Gtk.Window):
     # -------------------------------------------------------------------------
     def __init__(self):
         Gtk.Window.__init__(self, title="電卓")
+        self.set_icon_from_file("calculator.png")
         self.set_default_size(0, 0)
         self.set_resizable(False)
 
