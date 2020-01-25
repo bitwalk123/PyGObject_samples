@@ -7,7 +7,7 @@ from gi.repository import Gtk
 class MyWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="CellRendererText Example")
+        Gtk.Window.__init__(self, title="セルレンダーテキスト")
 
         self.set_default_size(200, 200)
 
@@ -19,13 +19,13 @@ class MyWindow(Gtk.Window):
         treeview = Gtk.TreeView(model=self.liststore)
 
         renderer_text = Gtk.CellRendererText()
-        column_text = Gtk.TreeViewColumn("Text", renderer_text, text=0)
+        column_text = Gtk.TreeViewColumn("テキスト", renderer_text, text=0)
         treeview.append_column(column_text)
 
         renderer_editabletext = Gtk.CellRendererText()
         renderer_editabletext.set_property("editable", True)
 
-        column_editabletext = Gtk.TreeViewColumn("Editable Text",
+        column_editabletext = Gtk.TreeViewColumn("テキスト（編集可）",
                                                  renderer_editabletext, text=1)
         treeview.append_column(column_editabletext)
 
