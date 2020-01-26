@@ -4,6 +4,8 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 
+# reference
+# https://stackoverflow.com/questions/32678785/button-for-row-deletion-in-gtk-3
 class MyWindow(Gtk.Window):
 
     def __init__(self):
