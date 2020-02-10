@@ -64,7 +64,7 @@ class MyWindow(Gtk.Window):
         if response == Gtk.ResponseType.OK:
             print("WARN ダイアログが OK ボタンで閉じられました。")
         elif response == Gtk.ResponseType.CANCEL:
-            print("WARN ダイアログが CENCEL ボタンで閉じられました。")
+            print("WARN ダイアログが CANCEL ボタンで閉じられました。")
 
         dialog.destroy()
 
