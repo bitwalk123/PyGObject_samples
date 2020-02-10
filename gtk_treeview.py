@@ -22,6 +22,10 @@ class MyWindow(Gtk.Window):
         column.pack_start(cell, True)
         column.add_attribute(cell, 'text', 0)
 
+        select = tree.get_selection()
+        select.connect("changed", self.on_tree_selection_changed)
+
+        tree.connect("row-activated", self.on_tree_doubleclicked)
         vbox.add(tree)
 
     def create_store(self):
@@ -39,6 +43,20 @@ class MyWindow(Gtk.Window):
         store.append(row2, ['PyGObject'])
 
         return store
+
+
+    # -------------------------------------------------------------------------
+    def on_tree_selection_changed(self, selection):
+        model, treeiter = selection.get_selected()
+        if treeiter is not None:
+            print(model[treeiter][0], "が選択されました。")
+
+    # -------------------------------------------------------------------------
+    def on_tree_doubleclicked(self, tree, path, col, userdata=None):
+        model = tree.get_model()
+        treeiter = model.get_iter(path)
+        if treeiter is not None:
+            print(model[treeiter][0], "がダブルクリックされました。")
 
 
 win = MyWindow()
