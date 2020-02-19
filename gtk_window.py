@@ -1,0 +1,43 @@
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
+
+class ChildWindow(Gtk.Window):
+    def __init__(self):
+        Gtk.Window.__init__(self, title="サブ")
+
+        button = Gtk.Button(label="このボタンをクリックするとウィンドウを閉じます。")
+        button.connect("clicked", self.on_button_clicked)
+        self.add(button)
+
+    def on_button_clicked(self, widget):
+        print("ウィンドウを閉じます。")
+        self.close()
+
+
+class MyWindow(Gtk.Window):
+
+    def __init__(self):
+        Gtk.Window.__init__(self, title="メイン")
+
+        button = Gtk.Button(label="このボタンをクリックすると、子ウィンドウが開きます。")
+        button.connect("clicked", self.on_button_clicked)
+        self.add(button)
+
+    def on_button_clicked(self, widget):
+        print("クリックされました。")
+
+        child = ChildWindow()
+        child.set_transient_for(parent=self)
+        child.set_modal(True)
+        child.set_deletable(False)
+        child.connect("destroy", Gtk.Widget.destroy)
+        child.show_all()
+
+
+win = MyWindow()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
