@@ -7,23 +7,23 @@ from gi.repository import Gtk
 class MyWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="HBox")
+        Gtk.Window.__init__(self, title="Horizontal Box")
         self.set_default_size(0, 0)
 
-        hbox = Gtk.HBox()
-        self.add(hbox)
+        box = Gtk.Box()
+        self.add(box)
 
         but1 = Gtk.Button(label="1")
-        hbox.add(but1)
+        box.pack_start(but1, True, True, 0)
 
         but2 = Gtk.Button(label="2")
-        hbox.add(but2)
+        box.pack_start(but2, True, True, 0)
 
         but3 = Gtk.Button(label="3")
-        hbox.add(but3)
+        box.pack_start(but3, True, True, 0)
 
         but4 = Gtk.Button(label="4")
-        hbox.add(but4)
+        box.pack_start(but4, True, True, 0)
 
 
 win = MyWindow()
