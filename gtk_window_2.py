@@ -22,6 +22,7 @@ class ChildWindow(Gtk.Window):
 
     def run(self):
         self.show_all()
+        return "ウィンドウを表示しました。"
 
 
 class MyWindow(Gtk.Window):
@@ -37,7 +38,8 @@ class MyWindow(Gtk.Window):
         print("クリックされました。")
 
         child = ChildWindow(self)
-        child.run()
+        response = child.run()
+        print(response)
 
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)
