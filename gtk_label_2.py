@@ -11,10 +11,10 @@ class MyWindow(Gtk.Window):
         self.set_default_size(0, 0)
 
         box = Gtk.Box()
-        icon1 = Gtk.Image.new_from_icon_name(Gtk.STOCK_YES, Gtk.IconSize.MENU)
-        box.pack_start(icon1, True, True, 0)
-        icon2 = Gtk.Image.new_from_icon_name(Gtk.STOCK_NO, Gtk.IconSize.MENU)
-        box.pack_start(icon2, True, True, 0)
+        image1 = Gtk.Image.new_from_icon_name(Gtk.STOCK_YES, Gtk.IconSize.MENU)
+        box.pack_start(image1, True, True, 0)
+        image2 = Gtk.Image.new_from_icon_name(Gtk.STOCK_NO, Gtk.IconSize.MENU)
+        box.pack_start(image2, True, True, 0)
         self.add(box)
 
 
