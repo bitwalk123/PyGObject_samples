@@ -12,6 +12,7 @@ class MyDialog(Gtk.Dialog):
         self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(0, 0)
         self.set_resizable(False)
+        self.set_modal(True)
 
         msg = Gtk.TextBuffer()
         msg.set_text("このウィンドウは、追加情報を表示するためのダイアログです。")
