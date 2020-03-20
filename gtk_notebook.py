@@ -8,7 +8,7 @@ class MyWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="ノートブック")
-        self.set_default_size(0, 0)
+        self.set_default_size(400, 400)
 
         notebook = Gtk.Notebook()
         self.add(notebook)
