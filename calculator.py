@@ -108,6 +108,9 @@ class Calculator(Gtk.Window):
 
         self.gui_layout()
 
+    # -------------------------------------------------------------------------
+    #  gui_layout
+    # -------------------------------------------------------------------------
     def gui_layout(self):
         self.grid = Gtk.Grid(name="Base", column_homogeneous=True)
         context = self.grid.get_style_context()
@@ -133,6 +136,15 @@ class Calculator(Gtk.Window):
             context.add_provider(self.provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
             self.grid.attach(but, key["x"], key["y"], key["w"], key["h"])
 
+    # -------------------------------------------------------------------------
+    #  get_display_string
+    #
+    #  argument
+    #    value : value to display
+    #
+    #  return
+    #    string to display
+    # -------------------------------------------------------------------------
     def get_display_string(self, value):
         str_display = str(value)
 
@@ -143,6 +155,16 @@ class Calculator(Gtk.Window):
 
         return str_display
 
+    # -------------------------------------------------------------------------
+    #  get_function_result
+    #
+    #  arguments
+    #    text  : function operator
+    #    value : value of function parameter
+    #
+    #  return
+    #    value calculated specified function
+    # -------------------------------------------------------------------------
     def get_function_result(self, text, value):
         # sign
         if text == "±":
@@ -155,6 +177,15 @@ class Calculator(Gtk.Window):
                 self.flag_error = True
                 return e
 
+    # -------------------------------------------------------------------------
+    #  get_operator
+    #
+    #  argument
+    #    text : label string of calculator key pad
+    #
+    #  return
+    #    operator string
+    # -------------------------------------------------------------------------
     def get_operator(self, text):
         if text == "＋":
             return "+"
@@ -165,17 +196,35 @@ class Calculator(Gtk.Window):
         if text == "÷":
             return "/"
 
+    # -------------------------------------------------------------------------
+    #  set_display
+    #
+    #  argument
+    #    text : string to display
+    # -------------------------------------------------------------------------
     def set_display(self, text):
         length = len(text)
         self.ent.set_text(text)
         self.ent.set_position(length)
 
+    # -------------------------------------------------------------------------
+    #  zenkaku_to_hankaku
+    #
+    #  argument
+    #    text : zenkaku string
+    #
+    #  return
+    #    hankaku (ascii) string
+    # -------------------------------------------------------------------------
     def zenkaku_to_hankaku(self, text):
         # ref: https://qiita.com/YuukiMiyoshi/items/6ce77bf402a29a99f1bf
         return text.translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)}))
 
-    # -------------------------------------------------------------------------
+    # =========================================================================
     #  BINDINGS
+    # =========================================================================
+    # -------------------------------------------------------------------------
+    #  on_clear
     # -------------------------------------------------------------------------
     def on_clear(self, button):
         # display
@@ -186,6 +235,9 @@ class Calculator(Gtk.Window):
         self.flag_operation = False
         self.flag_error = False
 
+    # -------------------------------------------------------------------------
+    #  on_dot
+    # -------------------------------------------------------------------------
     def on_dot(self, button):
         if self.flag_error:
             return
@@ -193,6 +245,9 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_dot = True
 
+    # -------------------------------------------------------------------------
+    #  on_equal
+    # -------------------------------------------------------------------------
     def on_equal(self, button):
         if self.flag_error:
             return
@@ -217,6 +272,9 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
+    # -------------------------------------------------------------------------
+    #  on_function
+    # -------------------------------------------------------------------------
     def on_function(self, button):
         if self.flag_error:
             return
@@ -236,6 +294,9 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
+    # -------------------------------------------------------------------------
+    #  on_operation
+    # -------------------------------------------------------------------------
     def on_operation(self, button):
         if self.flag_error:
             return
@@ -251,6 +312,9 @@ class Calculator(Gtk.Window):
         # flag
         self.flag_operation = True
 
+    # -------------------------------------------------------------------------
+    #  on_number
+    # -------------------------------------------------------------------------
     def on_number(self, button):
         if self.flag_error:
             return
@@ -297,4 +361,6 @@ if __name__ == '__main__':
     win.connect("destroy", Gtk.main_quit)
     win.show_all()
     Gtk.main()
+
+# ---
 # PROGRAM END
