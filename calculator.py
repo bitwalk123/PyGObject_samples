@@ -13,43 +13,6 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-# -----------------------------------------------------------------------------
-# CSS
-CALCULATOR_CSS = '''
-button {
-    padding: 5px 30px;
-    margin: 1px;
-}
-entry {
-    padding: 10px;
-    margin: 1px;
-}
-#Base {
-    background: wheat;
-    margin: 2px;
-}
-#Display {
-    background: whitesmoke;
-    color: darkgreen;
-    font-size: x-large;
-}
-#Key {
-    background: lavender;
-    color: navy;
-}
-#Ope {
-    background: lightCyan;
-    color: navy;
-}
-#Fnc {
-    background: moccasin;
-    color: navy;
-}
-#Cls {
-    background: thistle;
-    color: darkred;
-}'''
-
 
 class Calculator(Gtk.Window):
     # -------------------------------------------------------------------------
@@ -100,7 +63,8 @@ class Calculator(Gtk.Window):
 
     # CSS
     provider = Gtk.CssProvider()
-    provider.load_from_data(CALCULATOR_CSS.encode('utf-8'))
+    # provider.load_from_data(CALCULATOR_CSS.encode('utf-8'))
+    provider.load_from_path('./calculator.css')
 
     # -------------------------------------------------------------------------
     #  CONSTRUCTOR
