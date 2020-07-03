@@ -1,0 +1,33 @@
+button {
+    padding: 5px 30px;
+    margin: 1px;
+}
+entry {
+    padding: 10px;
+    margin: 1px;
+}
+#Base {
+    background: wheat;
+    margin: 2px;
+}
+#Display {
+    background: whitesmoke;
+    color: darkgreen;
+    font-size: x-large;
+}
+#Key {
+    background: lavender;
+    color: navy;
+}
+#Ope {
+    background: lightCyan;
+    color: navy;
+}
+#Fnc {
+    background: moccasin;
+    color: navy;
+}
+#Cls {
+    background: thistle;
+    color: darkred;
+}
