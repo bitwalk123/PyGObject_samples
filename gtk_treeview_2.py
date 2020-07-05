@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 software_list = [("Firefox", 2002, "C++"),
                  ("Eclipse", 2004, "Java"),
@@ -28,7 +28,13 @@ class MyWindow(Gtk.Window):
         self.grid.set_row_homogeneous(True)
         self.add(self.grid)
 
-        self.software_liststore = Gtk.ListStore(str, int, str)
+        # for GObject.TYPE_XXXX, see following URL:
+        # https://developer.gnome.org/pygtk/stable/class-gtkliststore.html
+        self.software_liststore = Gtk.ListStore(
+            GObject.TYPE_STRING,
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING
+        )
         for software_ref in software_list:
             self.software_liststore.append(list(software_ref))
         self.current_filter_language = None

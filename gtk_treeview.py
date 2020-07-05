@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 
 # reference
@@ -29,7 +29,9 @@ class MyWindow(Gtk.Window):
         vbox.add(tree)
 
     def create_store(self):
-        store = Gtk.TreeStore(str)
+        # for GObject.TYPE_XXXX, see following URL:
+        # https://developer.gnome.org/pygtk/stable/class-gtkliststore.html
+        store = Gtk.TreeStore(GObject.TYPE_STRING)
 
         row1 = store.append(None, ['Java'])
         store.append(row1, ['AWT'])
