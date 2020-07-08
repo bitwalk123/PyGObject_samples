@@ -28,7 +28,8 @@ sw.set_border_width(10)
 
 canvas = FigureCanvas(f)  # a Gtk.DrawingArea
 canvas.set_size_request(800, 600)
-sw.add_with_viewport(canvas)
+#sw.add_with_viewport(canvas)
+sw.add(canvas)
 
 win.show_all()
 Gtk.main()

@@ -14,7 +14,7 @@ class MyWindow(Gtk.Window):
         self.add(box)
 
         but1 = Gtk.Button(label="1")
-
+        box.pack_start(but1, True, True, 0)
 
         but2 = Gtk.Button(label="2")
         box.pack_start(but2, True, True, 0)
