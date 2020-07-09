@@ -24,7 +24,7 @@ win.set_default_size(800, 600)
 win.set_title("SPC Chart")
 
 f = Figure(dpi=100)
-a = f.add_subplot(111, title="Sample SPC Chart", ylabel='Value')
+a = f.add_subplot(111, title="SPC Chart Example", ylabel='Value')
 a.grid(True)
 # horizontal lines
 a.axhline(y=spec_usl, linewidth=1, color='red', label='USL')
