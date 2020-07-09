@@ -7,7 +7,6 @@ from matplotlib.backends.backend_gtk3agg import (
     FigureCanvasGTK3Agg as FigureCanvas
 )
 from matplotlib.figure import Figure
-import numpy as np
 import pandas as pd
 
 df = pd.DataFrame({'Sample': list(range(1, 11)),
