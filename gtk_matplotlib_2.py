@@ -16,7 +16,6 @@ spec_usl = 9.97
 spec_target = 8.70
 spec_lsl = 7.43
 
-
 win = Gtk.Window()
 win.connect("delete-event", Gtk.main_quit)
 win.set_default_size(800, 600)
