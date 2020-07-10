@@ -7,7 +7,6 @@ from matplotlib.backends.backend_gtk3agg import (
     FigureCanvasGTK3Agg as FigureCanvas
 )
 from matplotlib.figure import Figure
-import numpy as np
 import pandas as pd
 
 df = pd.DataFrame({'Sample': list(range(1, 11)),
@@ -30,13 +29,14 @@ a.grid(True)
 a.axhline(y=spec_usl, linewidth=1, color='red', label='USL')
 a.axhline(y=spec_target, linewidth=1, color='blue', label='Target')
 a.axhline(y=spec_lsl, linewidth=1, color='red', label='LSL')
-# text label
-x_label = len(df) + 0.5
-a.text(x_label, spec_usl, "USL", color="red")
-a.text(x_label, spec_target, "Target", color="blue")
-a.text(x_label, spec_lsl, "LSL", color="red")
 # trend
 a.plot(df['Sample'], df['Y'], color="gray", marker="o", markersize=10)
+
+# text label
+x_label = a.get_xlim()[1]
+a.text(x_label, spec_usl, " USL", color="red")
+a.text(x_label, spec_target, " Target", color="blue")
+a.text(x_label, spec_lsl, " LSL", color="red")
 
 sw = Gtk.ScrolledWindow()
 win.add(sw)
