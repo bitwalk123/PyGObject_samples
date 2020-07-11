@@ -9,60 +9,42 @@ from matplotlib.backends.backend_gtk3agg import (
 from matplotlib.figure import Figure
 import pandas as pd
 
-
-class MyWindow(Gtk.Window):
-
-    def __init__(self):
-        Gtk.Window.__init__(self, title="SPC Chart")
-        self.set_default_size(800, 600)
-
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.add(box)
-
-        # plot area
-        sw = Gtk.ScrolledWindow()
-        sw.set_border_width(10)
-        box.pack_start(sw, True, True, 0)
-
-        figure = self.gen_example_chart()
-        canvas = FigureCanvas(figure)  # a Gtk.DrawingArea
-        canvas.set_size_request(800, 600)
-        sw.add(canvas)
-
-    def gen_example_chart(self):
-        # example dataframe
-        df = pd.DataFrame({
-            'Sample': list(range(1, 11)),
-            'Y': [9.030, 8.810, 9.402, 8.664, 8.773, 8.774, 8.416, 9.101, 8.687, 8.767]
-        })
-        # SPC metrics
-        spec_usl = 9.97
-        spec_target = 8.70
-        spec_lsl = 7.43
-
-        # spc chart
-        fig = Figure(dpi=100)
-        splot = fig.add_subplot(111, title="SPC Chart Example", ylabel='Value')
-        splot.grid(True)
-
-        # horizontal lines
-        splot.axhline(y=spec_usl, linewidth=1, color='red', label='USL')
-        splot.axhline(y=spec_target, linewidth=1, color='blue', label='Target')
-        splot.axhline(y=spec_lsl, linewidth=1, color='red', label='LSL')
-
-        # trend
-        splot.plot(df['Sample'], df['Y'], color="gray", marker="o", markersize=10)
-
-        # text label
-        x_label = splot.get_xlim()[1]
-        splot.text(x_label, spec_usl, " USL", color="red")
-        splot.text(x_label, spec_target, " Target", color="blue")
-        splot.text(x_label, spec_lsl, " LSL", color="red")
-
-        return fig
+df = pd.DataFrame({'Sample': list(range(1, 11)),
+                   'Y': [9.030, 8.810, 9.402, 8.664, 8.773, 8.774, 8.416, 9.101, 8.687, 8.767]})
+# SPC metrics
+spec_usl = 9.97
+spec_target = 8.70
+spec_lsl = 7.43
 
 
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
+win = Gtk.Window()
+win.connect("delete-event", Gtk.main_quit)
+win.set_default_size(800, 600)
+win.set_title("SPC Chart")
+
+f = Figure(dpi=100)
+a = f.add_subplot(111, title="SPC Chart Example", ylabel='Value')
+a.grid(True)
+# horizontal lines
+a.axhline(y=spec_usl, linewidth=1, color='red', label='USL')
+a.axhline(y=spec_target, linewidth=1, color='blue', label='Target')
+a.axhline(y=spec_lsl, linewidth=1, color='red', label='LSL')
+# trend
+a.plot(df['Sample'], df['Y'], color="gray", marker="o", markersize=10)
+
+# text label
+x_label = a.get_xlim()[1]
+a.text(x_label, spec_usl, " USL", color="red")
+a.text(x_label, spec_target, " Target", color="blue")
+a.text(x_label, spec_lsl, " LSL", color="red")
+
+sw = Gtk.ScrolledWindow()
+win.add(sw)
+sw.set_border_width(10)
+
+canvas = FigureCanvas(f)  # a Gtk.DrawingArea
+canvas.set_size_request(800, 600)
+sw.add(canvas)
+
 win.show_all()
 Gtk.main()
