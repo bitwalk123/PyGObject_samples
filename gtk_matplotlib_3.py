@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GdkPixbuf
 
 from matplotlib.backends.backend_gtk3agg import (
     FigureCanvasGTK3Agg as FigureCanvas
@@ -16,18 +16,43 @@ class MyWindow(Gtk.Window):
         Gtk.Window.__init__(self, title="SPC Chart")
         self.set_default_size(800, 600)
 
+        # SPC chart
+        figure = self.gen_example_chart()
+
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.add(box)
 
+        # frame
+        b_bar = self.gen_button_bar(figure)
+        box.pack_start(b_bar, False, True, 0)
+
         # plot area
+        p_area = self.gen_plot_area(figure)
+        box.pack_start(p_area, True, True, 0)
+
+    def gen_button_bar(self, figure):
+        frame = Gtk.Frame()
+
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        frame.add(hbox)
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file('powerpoint-128.png')
+        pixbuf = pixbuf.scale_simple(32, 32, GdkPixbuf.InterpType.BILINEAR)
+
+        but = Gtk.Button()
+        but.add(Gtk.Image.new_from_pixbuf(pixbuf))
+        but.connect("clicked", self.on_button_clicked, figure)
+        hbox.pack_end(but, False, True, 0)
+
+        return frame
+
+    def gen_plot_area(self, figure):
         sw = Gtk.ScrolledWindow()
         sw.set_border_width(10)
-        box.pack_start(sw, True, True, 0)
-
-        figure = self.gen_example_chart()
         canvas = FigureCanvas(figure)  # a Gtk.DrawingArea
         canvas.set_size_request(800, 600)
         sw.add(canvas)
+        return sw
 
     def gen_example_chart(self):
         # example dataframe
@@ -60,6 +85,9 @@ class MyWindow(Gtk.Window):
         splot.text(x_label, spec_lsl, " LSL", color="red")
 
         return fig
+
+    def on_button_clicked(self, button, figure):
+        print("ボタンがクリックされました。")
 
 
 win = MyWindow()
