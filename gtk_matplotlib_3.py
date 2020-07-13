@@ -10,7 +10,7 @@ from matplotlib.figure import Figure
 import pandas as pd
 
 from pptx import Presentation
-from pptx.util import Pt, Inches
+from pptx.util import Cm, Pt
 from pptx.dml.color import RGBColor
 
 
@@ -114,7 +114,7 @@ class MyWindow(Gtk.Window):
         # insert empty slide
         presentation = Presentation(template_path)
         # refer layout from original master
-        title_slide_layout = presentation.slide_layouts[4]
+        title_slide_layout = presentation.slide_layouts[3]
         slide = presentation.slides.add_slide(title_slide_layout)
         shapes = slide.shapes
         # slide title
@@ -125,17 +125,35 @@ class MyWindow(Gtk.Window):
         # insert image
         # ---------------------------------------------------
         # insert position
-        pic_left = self.convVal(3)
-        pic_top = self.convVal(3)
+        pic_left = Cm(0.5)
+        pic_top = Cm(3.5)
         # image height
-        pic_height = self.convVal(15)
+        pic_height = Cm(15)
         slide.shapes.add_picture(image_path, pic_left, pic_top, height=pic_height)
-        # save PowerPoint Files
-        presentation.save(save_path)
 
-    def convVal(self, value):
-        # 1 inch = 2.54 cm
-        return Inches(value / 2.54)
+        # ---------------------------------------------------
+        # insert text box
+        # ---------------------------------------------------
+        text_left = Cm(20.73)
+        text_top = Cm(3.63)
+        text_height = Cm(14.88)
+        text_width = Cm(11.63)
+        text_box = slide.shapes.add_textbox(text_left, text_top, text_width, text_height)
+
+        sample_str = "Test Message"
+        text_box.text = sample_str
+
+        text_font = 20
+        text_box.text_frame.add_paragraph().font.size = Pt(text_font)
+
+        text_box.fill.solid()
+        color = RGBColor(255, 255, 240)
+        text_box.fill.fore_color.rgb = color
+
+        # ---------------------------------------------------------------------
+        # save PowerPoint file
+        # ---------------------------------------------------------------------
+        presentation.save(save_path)
 
 
 win = MyWindow()
