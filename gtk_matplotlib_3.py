@@ -106,7 +106,7 @@ class MyWindow(Gtk.Window):
                                    flags=0,
                                    message_type=Gtk.MessageType.INFO,
                                    buttons=Gtk.ButtonsType.OK,
-                                   text="PowerPoint ファイル " + save_path + " を生成しました。")
+                                   text="generated PowerPoint file in " + save_path + ".")
         dialog.run()
         dialog.destroy()
 
