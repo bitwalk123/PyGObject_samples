@@ -5,12 +5,12 @@ from gi.repository import Gtk, Gdk, GdkPixbuf
 
 
 class MyWindow(Gtk.Window):
-    list_imagefile = ['images/IMG_0001.JPG',
-                      'images/IMG_0002.JPG',
-                      'images/IMG_0003.JPG',
-                      'images/IMG_0004.JPG',
-                      'images/IMG_0005.JPG', ]
-    index_image = 0
+    list_image = ['images/IMG_0001.JPG',
+                  'images/IMG_0002.JPG',
+                  'images/IMG_0003.JPG',
+                  'images/IMG_0004.JPG',
+                  'images/IMG_0005.JPG', ]
+    idx_image = 0
     width = 300
     height = 200
 
@@ -24,55 +24,59 @@ class MyWindow(Gtk.Window):
         self.set_titlebar(hbar)
 
         hbar.set_show_close_button(True)
-        hbar.props.title = "HeaderBar"
+        hbar.props.title = 'HaderBar'
 
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         hbar.pack_start(box)
 
-        image_left = Gtk.Image.new_from_icon_name('go-previous', Gtk.IconSize.BUTTON)
+        img_left = Gtk.Image.new_from_icon_name('go-previous', Gtk.IconSize.BUTTON)
         but_left = Gtk.Button()
-        but_left.set_image(image_left)
+        but_left.set_image(img_left)
         but_left.connect('clicked', self.on_arrow_left_clicked)
         box.add(but_left)
 
-        image_right = Gtk.Image.new_from_icon_name('go-next', Gtk.IconSize.BUTTON)
+        img_right = Gtk.Image.new_from_icon_name('go-next', Gtk.IconSize.BUTTON)
         but_right = Gtk.Button()
-        but_right.set_image(image_right)
+        but_right.set_image(img_right)
         but_right.connect('clicked', self.on_arrow_right_clicked)
         box.add(but_right)
 
         self.get_image()
-        self.darea = Gtk.DrawingArea()
-        self.darea.connect("draw", self.on_draw)
-        self.add(self.darea)
+        self.area = Gtk.DrawingArea()
+        self.area.connect('draw', self.on_draw)
+        self.add(self.area)
 
-    def on_draw(self, wid, cr):
+    def on_draw(self, widget, cr):
+        # Sets the given pixbuf as the source pattern for cr, cairo context.
         Gdk.cairo_set_source_pixbuf(cr, self.img, 0, 0)
         cr.paint()
 
     def get_image(self):
         self.img = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            self.list_imagefile[self.index_image], self.width, self.height, True
+            self.list_image[self.idx_image], self.width, self.height, True
         )
 
     def on_arrow_left_clicked(self, widget):
-        self.index_image -= 1
-        if self.index_image < 0:
-            self.index_image = 0
-
+        self.idx_image -= 1
+        # check scope of image index
+        if self.idx_image < 0:
+            self.idx_image = 0
+        # update image to display
         self.get_image()
-        self.darea.queue_draw()
+        self.area.queue_draw()
 
     def on_arrow_right_clicked(self, widget):
-        self.index_image += 1
-        if self.index_image >= len(self.list_imagefile):
-            self.index_image = len(self.list_imagefile) - 1
-
+        # check scope of image index
+        self.idx_image += 1
+        if self.idx_image >= len(self.list_image):
+            self.idx_image = len(self.list_image) - 1
+        # update image to display
         self.get_image()
-        self.darea.queue_draw()
+        self.area.queue_draw()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     win = MyWindow()
-    win.connect("destroy", Gtk.main_quit)
+    win.connect('destroy', Gtk.main_quit)
     win.show_all()
     Gtk.main()
