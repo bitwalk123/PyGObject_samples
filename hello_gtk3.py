@@ -18,7 +18,7 @@ class Hello(Gtk.Window):
         box.pack_start(button, True, True, 0)
 
     def on_button_clicked(self, widget):
-        print('Hello World! (GTK+ %s.%s.%s)' % (Gtk.MAJOR_VERSION, Gtk.MINOR_VERSION, Gtk.MICRO_VERSION))
+        print('Hello World! (GTK %s.%s.%s)' % (Gtk.MAJOR_VERSION, Gtk.MINOR_VERSION, Gtk.MICRO_VERSION))
 
 
 def main():
