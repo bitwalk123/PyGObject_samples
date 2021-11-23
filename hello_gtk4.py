@@ -20,7 +20,7 @@ class Hello(Gtk.Window):
         self.present()
 
     def on_button_clicked(self, widget):
-        print('Hello World!')
+        print('Hello World! (GTK+ %s.%s.%s)' % (Gtk.MAJOR_VERSION, Gtk.MINOR_VERSION, Gtk.MICRO_VERSION))
 
 
 class MyApplication(Gtk.Application):
