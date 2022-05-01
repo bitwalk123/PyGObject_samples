@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding: utf-8
 # References
 # https://www.gtk.org/docs/language-bindings/python
 # https://palepoli.skr.jp/wp/2021/05/03/gtk4-python-001/
