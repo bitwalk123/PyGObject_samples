@@ -10,14 +10,13 @@ from gi.repository import Gtk
 class Hello(Gtk.Window):
     def __init__(self, app):
         Gtk.Window.__init__(self, application=app, title="Hello World")
-
+        # Box layout
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(box)
-
+        # Button
         button = Gtk.Button(label='こんにちは、世界！')
         button.connect('clicked', self.on_button_clicked)
         box.append(button)
-        self.present()
 
     def on_button_clicked(self, widget):
         print('Hello World! (GTK %s.%s.%s)' % (Gtk.MAJOR_VERSION, Gtk.MINOR_VERSION, Gtk.MICRO_VERSION))
@@ -28,7 +27,8 @@ class MyApplication(Gtk.Application):
         Gtk.Application.__init__(self, application_id='com.blogspot.bitwalk')
 
     def do_activate(self):
-        Hello(self)
+        win = Hello(self)
+        win.present()
 
 
 def main():

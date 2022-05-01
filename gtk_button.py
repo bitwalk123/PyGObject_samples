@@ -1,24 +1,34 @@
 import gi
 
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
 
-class MyWindow(Gtk.Window):
-
-    def __init__(self):
-        Gtk.Window.__init__(self, title="ボタン")
-        self.set_default_size(0, 0)
-
+class Example(Gtk.Window):
+    def __init__(self, app):
+        Gtk.Window.__init__(self, application=app, title="ボタン")
+        # Button
         but = Gtk.Button(label="クリックして下さい")
         but.connect("clicked", self.on_button_clicked)
-        self.add(but)
+        self.set_child(but)
 
     def on_button_clicked(self, button):
         print("ボタンがクリックされました。")
 
 
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+class MyApplication(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self, application_id='com.blogspot.bitwalk')
+
+    def do_activate(self):
+        win = Example(self)
+        win.present()
+
+
+def main():
+    app = MyApplication()
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
