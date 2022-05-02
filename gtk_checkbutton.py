@@ -30,7 +30,7 @@ class Example(Gtk.Window):
             state = "オン"
         else:
             state = "オフ"
-        print("チェックボタン" + name + "は「" + state + "」になりました。")
+        print("チェックボタン%sは「%s」になりました。" % (name, state))
 
 
 class MyApplication(Gtk.Application):

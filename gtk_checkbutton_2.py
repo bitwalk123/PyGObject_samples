@@ -13,24 +13,26 @@ class Example(Gtk.Window):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(box)
         #
-        group_rb = None
-        rb1 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＡ", group=group_rb)
+        group_rb = Gtk.CheckButton()
+        #
+        rb1 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＡ", group = group_rb)
         rb1.connect("toggled", self.on_button_toggled, "Ａ")
-        group_rb = rb1
-        rb1.props.active = True
         box.append(rb1)
         #
-        rb2 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＢ", group=group_rb)
+        rb2 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＢ", group = group_rb)
         rb2.connect("toggled", self.on_button_toggled, "Ｂ")
         box.append(rb2)
         #
-        rb3 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＣ", group=group_rb)
+        rb3 = Gtk.CheckButton(label="チェック（ラジオ）ボタンＣ", group = group_rb)
         rb3.connect("toggled", self.on_button_toggled, "Ｃ")
         box.append(rb3)
 
     def on_button_toggled(self, button, name):
         if button.get_active():
-            print("チェック（ラジオ）ボタン" + name + "が「オン」になりました。")
+            state = "オン"
+        else:
+            state = "オフ"
+        print("チェックボタン%sは「%s」になりました。" % (name, state))
 
 
 class MyApplication(Gtk.Application):
