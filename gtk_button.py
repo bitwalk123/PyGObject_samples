@@ -5,6 +5,7 @@ import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
+APPID = 'com.blogspot.bitwalk'
 
 class Example(Gtk.Window):
     def __init__(self, app):
@@ -29,7 +30,7 @@ class MyApplication(Gtk.Application):
     def __init__(self):
         Gtk.Application.__init__(
             self,
-            application_id='com.blogspot.bitwalk'
+            application_id=APPID
         )
 
     def do_activate(self):
