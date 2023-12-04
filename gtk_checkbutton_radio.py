@@ -5,6 +5,8 @@ import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
+APPID = 'com.blogspot.bitwalk'
+
 
 class Example(Gtk.Window):
     def __init__(self, app):
@@ -21,7 +23,7 @@ class Example(Gtk.Window):
         #
         rb1 = Gtk.CheckButton(
             label='チェック（ラジオ）ボタンＡ',
-            group = group_rb
+            group=group_rb
         )
         rb1.connect(
             'toggled',
@@ -32,7 +34,7 @@ class Example(Gtk.Window):
         #
         rb2 = Gtk.CheckButton(
             label='チェック（ラジオ）ボタンＢ',
-            group = group_rb
+            group=group_rb
         )
         rb2.connect(
             'toggled',
@@ -43,7 +45,7 @@ class Example(Gtk.Window):
         #
         rb3 = Gtk.CheckButton(
             label='チェック（ラジオ）ボタンＣ',
-            group = group_rb
+            group=group_rb
         )
         rb3.connect(
             'toggled',
@@ -62,7 +64,7 @@ class Example(Gtk.Window):
 
 class MyApplication(Gtk.Application):
     def __init__(self):
-        Gtk.Application.__init__(self, application_id='com.blogspot.bitwalk')
+        Gtk.Application.__init__(self, application_id=APPID)
 
     def do_activate(self):
         win = Example(self)
