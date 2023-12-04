@@ -45,22 +45,22 @@ class Example(Gtk.ApplicationWindow):
         headerbar.pack_start(box)
 
         # Gtk.HeaderBarに追加するGtk.Popoverに載せるものの作成
-        hambuger_menu = Gtk.Box(
+        hamburger_menu = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10
         )
-        hambager_button = Gtk.Button(
+        hamburger_item_1 = Gtk.Button(
             action_name='app.about',
-            label='バージョン情報',
+            label='このアプリについて',
             has_frame=False,
             receives_default=True
         )
-        hambuger_menu.append(hambager_button)
+        hamburger_menu.append(hamburger_item_1)
 
         # Gtk.MenuButtonにGtk.Popoverを紐付け
         self.popover = Gtk.Popover(
             position=Gtk.PositionType.BOTTOM,
-            child=hambuger_menu
+            child=hamburger_menu
         )
 
         hamburger_button = Gtk.MenuButton(
@@ -83,7 +83,7 @@ class MyApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        # 'バージョン情報'用のアクション
+        # 'このアプリについて'用のアクション
         action = Gio.SimpleAction.new('about')
         action.connect('activate', self.on_about)
         self.add_action(action)
@@ -101,8 +101,8 @@ class MyApplication(Gtk.Application):
         icon = Gtk.Picture.new_for_filename('logo.png').get_paintable()
         dialog = Gtk.AboutDialog(
             modal=True,
-            authors=['taniyoshima', 'Fuhito Suguri'],
-            comments='AboutDialogのサンプル',
+            authors=['Fuhito Suguri'],
+            comments='AboutDialog のサンプル',
             license_type=Gtk.License.MIT_X11,
             version='1.0.0',
             program_name=APPNAME,
