@@ -1,0 +1,3 @@
+pip-chill
+pip-review
+pygobject

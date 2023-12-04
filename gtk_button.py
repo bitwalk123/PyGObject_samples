@@ -8,19 +8,29 @@ from gi.repository import Gtk
 
 class Example(Gtk.Window):
     def __init__(self, app):
-        Gtk.Window.__init__(self, application=app, title="ボタン")
+        Gtk.Window.__init__(
+            self,
+            application=app,
+            title='ボタン'
+        )
         # Button
-        but = Gtk.Button(label="クリックして下さい")
-        but.connect("clicked", self.on_button_clicked)
+        but = Gtk.Button(label='クリックして下さい')
+        but.connect(
+            'clicked',
+            self.on_button_clicked
+        )
         self.set_child(but)
 
     def on_button_clicked(self, button):
-        print("ボタンがクリックされました。")
+        print('ボタンがクリックされました。')
 
 
 class MyApplication(Gtk.Application):
     def __init__(self):
-        Gtk.Application.__init__(self, application_id='com.blogspot.bitwalk')
+        Gtk.Application.__init__(
+            self,
+            application_id='com.blogspot.bitwalk'
+        )
 
     def do_activate(self):
         win = Example(self)
