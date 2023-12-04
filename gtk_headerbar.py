@@ -79,6 +79,7 @@ class Example(Gtk.ApplicationWindow):
 class MyApplication(Gtk.Application):
     def __init__(self):
         Gtk.Application.__init__(self, application_id=APPID)
+        self.window = None
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
