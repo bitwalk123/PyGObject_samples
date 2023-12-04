@@ -21,12 +21,21 @@ class Hello(Gtk.Window):
         box.append(button)
 
     def on_button_clicked(self, widget):
-        print('Hello World! (GTK %s.%s.%s)' % (Gtk.MAJOR_VERSION, Gtk.MINOR_VERSION, Gtk.MICRO_VERSION))
+        print(
+            'Hello World! (GTK %s.%s.%s)' % (
+                Gtk.MAJOR_VERSION,
+                Gtk.MINOR_VERSION,
+                Gtk.MICRO_VERSION
+            )
+        )
 
 
 class MyApplication(Gtk.Application):
     def __init__(self):
-        Gtk.Application.__init__(self, application_id='com.blogspot.bitwalk')
+        Gtk.Application.__init__(
+            self,
+            application_id='com.blogspot.bitwalk'
+        )
 
     def do_activate(self):
         win = Hello(self)
