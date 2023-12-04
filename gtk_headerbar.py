@@ -21,11 +21,11 @@ class Example(Gtk.ApplicationWindow):
             # default_width=450
         )
 
-        action = Gio.SimpleAction.new('button1_clicked', None)
+        action = Gio.SimpleAction.new('button1_clicked')
         action.connect('activate', self.on_button1_clicked)
         self.add_action(action)
 
-        action = Gio.SimpleAction.new('button2_clicked', None)
+        action = Gio.SimpleAction.new('button2_clicked')
         action.connect('activate', self.on_button2_clicked)
         self.add_action(action)
 
@@ -84,7 +84,7 @@ class MyApplication(Gtk.Application):
         Gtk.Application.do_startup(self)
 
         # 'バージョン情報'用のアクション
-        action = Gio.SimpleAction.new('about', None)
+        action = Gio.SimpleAction.new('about')
         action.connect('activate', self.on_about)
         self.add_action(action)
 
