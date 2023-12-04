@@ -39,30 +39,30 @@ class file_chooser():
 
     def add_filters(self, dialog):
         filter_any = Gtk.FileFilter()
-        filter_any.set_name("全てのファイル")
-        filter_any.add_pattern("*")
+        filter_any.set_name('全てのファイル')
+        filter_any.add_pattern('*')
         dialog.add_filter(filter_any)
 
 
 class MyWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="ファイル選択用ダイアログ")
+        Gtk.Window.__init__(self, title='ファイル選択用ダイアログ')
         self.set_default_size(400, 0)
 
         box = Gtk.Box()
         self.add(box)
 
-        but = Gtk.Button(label="ファイル選択")
+        but = Gtk.Button(label='ファイル選択')
         but.connect("clicked", self.on_file_clicked)
         box.add(but)
 
     def on_file_clicked(self, widget):
         filename = file_chooser.get(parent=self)
         if len(filename) > 0:
-            print("ファイル「" + filename + "」が選択されました。")
+            print('ファイル「' + filename + '」が選択されました。')
 
 
 win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
+win.connect('destroy', Gtk.main_quit)
 win.show_all()
 Gtk.main()

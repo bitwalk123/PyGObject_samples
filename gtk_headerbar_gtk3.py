@@ -5,11 +5,13 @@ from gi.repository import Gtk, Gdk, GdkPixbuf
 
 
 class MyWindow(Gtk.Window):
-    list_image = ['images/IMG_0001.JPG',
-                  'images/IMG_0002.JPG',
-                  'images/IMG_0003.JPG',
-                  'images/IMG_0004.JPG',
-                  'images/IMG_0005.JPG', ]
+    list_image = [
+        'images/IMG_0001.JPG',
+        'images/IMG_0002.JPG',
+        'images/IMG_0003.JPG',
+        'images/IMG_0004.JPG',
+        'images/IMG_0005.JPG',
+    ]
     idx_image = 0
     width = 300
     height = 200
@@ -29,13 +31,19 @@ class MyWindow(Gtk.Window):
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         hbar.pack_start(box)
 
-        img_left = Gtk.Image.new_from_icon_name('go-previous', Gtk.IconSize.BUTTON)
+        img_left = Gtk.Image.new_from_icon_name(
+            'go-previous',
+            Gtk.IconSize.BUTTON
+        )
         but_left = Gtk.Button()
         but_left.set_image(img_left)
         but_left.connect('clicked', self.on_arrow_left_clicked)
         box.add(but_left)
 
-        img_right = Gtk.Image.new_from_icon_name('go-next', Gtk.IconSize.BUTTON)
+        img_right = Gtk.Image.new_from_icon_name(
+            'go-next',
+            Gtk.IconSize.BUTTON
+        )
         but_right = Gtk.Button()
         but_right.set_image(img_right)
         but_right.connect('clicked', self.on_arrow_right_clicked)
@@ -53,7 +61,10 @@ class MyWindow(Gtk.Window):
 
     def get_image(self):
         self.img = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            self.list_image[self.idx_image], self.width, self.height, True
+            self.list_image[self.idx_image],
+            self.width,
+            self.height,
+            True
         )
 
     def on_arrow_left_clicked(self, widget):

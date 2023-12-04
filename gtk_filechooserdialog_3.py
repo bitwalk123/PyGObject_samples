@@ -45,24 +45,24 @@ class file_chooser():
 
 class MyWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="ファイル選択用ダイアログ（テスト）")
+        Gtk.Window.__init__(self, title='ファイル選択用ダイアログ（テスト）')
         self.set_default_size(400, 0)
 
         box = Gtk.Box()
         self.add(box)
 
-        but = Gtk.Button(label="ファイル選択")
-        but.connect("clicked", self.on_file_clicked)
+        but = Gtk.Button(label='ファイル選択')
+        but.connect('clicked', self.on_file_clicked)
         box.add(but)
 
     def on_file_clicked(self, widget):
         f = file_chooser()
         filename = f.get(parent=self)
         if len(filename) > 0:
-            print("ファイル「" + filename + "」が選択されました。")
+            print('ファイル「' + filename + '」が選択されました。')
 
 
 win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
+win.connect('destroy', Gtk.main_quit)
 win.show_all()
 Gtk.main()
