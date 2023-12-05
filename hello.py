@@ -15,16 +15,18 @@ class Hello(Gtk.Window):
     def __init__(self, app):
         Gtk.Window.__init__(self, application=app, title="Hello World")
         # Box layout
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.set_child(box)
+        layout = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.set_child(layout)
         # Button
         button = Gtk.Button(label='こんにちは、世界！')
         button.connect('clicked', self.on_button_clicked)
-        box.append(button)
+        layout.append(button)
 
-    def on_button_clicked(self, widget):
+    @staticmethod
+    def on_button_clicked(widget: Gtk.Button):
         print(
-            'Hello World! (GTK %s.%s.%s)' % (
+            '%s (GTK %s.%s.%s)' % (
+                widget.get_label(),
                 Gtk.MAJOR_VERSION,
                 Gtk.MINOR_VERSION,
                 Gtk.MICRO_VERSION
