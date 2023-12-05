@@ -14,8 +14,8 @@ class Example(Gtk.Window):
             self,
             application=app,
             title='TextView',
-            width_request=200,
-            height_request=200,
+            default_width=200,
+            default_height=200,
         )
 
         tv = Gtk.TextView()
