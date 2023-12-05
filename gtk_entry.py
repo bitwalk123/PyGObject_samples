@@ -11,28 +11,28 @@ from gi.repository import Gtk
 APPID = 'com.blogspot.bitwalk'
 
 
-class Hello(Gtk.Window):
+class Example(Gtk.Window):
+
     def __init__(self, app):
         Gtk.Window.__init__(
             self,
             application=app,
-            title='Hello World'
+            title='Entry'
         )
 
-        button = Gtk.Button(label='こんにちは、世界！')
-        button.connect('clicked', self.on_button_clicked)
-        self.set_child(button)
-
-    @staticmethod
-    def on_button_clicked(widget: Gtk.Button):
-        print(
-            '%s (GTK %s.%s.%s)' % (
-                widget.get_label(),
-                Gtk.MAJOR_VERSION,
-                Gtk.MINOR_VERSION,
-                Gtk.MICRO_VERSION
-            )
+        ent = Gtk.Entry(
+            placeholder_text='ここは入力欄です。',
+            max_length=32,
         )
+        ent.set_icon_from_icon_name(
+            Gtk.EntryIconPosition.PRIMARY,
+            'accessories-text-editor'
+        )
+        ent.connect('activate', self.on_entry_returned)
+        self.set_child(ent)
+
+    def on_entry_returned(self, entry: Gtk.Entry):
+        print(entry.get_text())
 
 
 class MyApplication(Gtk.Application):
@@ -40,7 +40,7 @@ class MyApplication(Gtk.Application):
         Gtk.Application.__init__(self, application_id=APPID)
 
     def do_activate(self):
-        win = Hello(self)
+        win = Example(self)
         win.present()
 
 
