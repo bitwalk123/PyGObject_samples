@@ -13,18 +13,16 @@ class Example(Gtk.Window):
         Gtk.Window.__init__(
             self,
             application=app,
-            title='ボタン'
+            title='Button'
         )
-        # Button
+
         but = Gtk.Button(label='クリックして下さい')
-        but.connect(
-            'clicked',
-            self.on_button_clicked
-        )
+        but.connect('clicked', self.on_button_clicked)
         self.set_child(but)
 
-    def on_button_clicked(self, button):
-        print('ボタンがクリックされました。')
+    @staticmethod
+    def on_button_clicked(button: Gtk.Button):
+        print('ボタン「%s」がクリックされました。' % button.get_label())
 
 
 class MyApplication(Gtk.Application):
