@@ -1,32 +1,47 @@
 import gi
 
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
+APPID = 'com.blogspot.bitwalk'
 
-class MyWindow(Gtk.Window):
 
-    def __init__(self):
-        Gtk.Window.__init__(self, title="Vertical Box")
-        self.set_default_size(0, 0)
+class Example(Gtk.Window):
+
+    def __init__(self, app):
+        Gtk.Window.__init__(
+            self,
+            application=app,
+            title='Vertical Box'
+        )
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.add(box)
+        self.set_child(box)
 
-        but1 = Gtk.Button(label="1")
-        box.pack_start(but1, True, True, 0)
+        but1 = Gtk.Button(label='1')
+        box.append(but1)
 
-        but2 = Gtk.Button(label="2")
-        box.pack_start(but2, True, True, 0)
+        but2 = Gtk.Button(label='2')
+        box.append(but2)
 
-        but3 = Gtk.Button(label="3")
-        box.pack_start(but3, True, True, 0)
-
-        but4 = Gtk.Button(label="4")
-        box.pack_start(but4, True, True, 0)
+        but3 = Gtk.Button(label='3')
+        box.append(but3)
 
 
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+class MyApplication(Gtk.Application):
+
+    def __init__(self):
+        Gtk.Application.__init__(self, application_id=APPID)
+
+    def do_activate(self):
+        win = Example(self)
+        win.present()
+
+
+def main():
+    app = MyApplication()
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
