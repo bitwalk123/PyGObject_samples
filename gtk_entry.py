@@ -21,12 +21,9 @@ class Example(Gtk.Window):
         )
 
         ent = Gtk.Entry(
+            primary_icon_name='accessories-text-editor',
             placeholder_text='ここは入力欄です。',
             max_length=32,
-        )
-        ent.set_icon_from_icon_name(
-            Gtk.EntryIconPosition.PRIMARY,
-            'accessories-text-editor'
         )
         ent.connect('activate', self.on_entry_returned)
         self.set_child(ent)

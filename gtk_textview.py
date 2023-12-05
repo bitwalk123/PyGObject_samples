@@ -1,24 +1,43 @@
+#!/usr/bin/env python
+# coding: utf-8
 import gi
 
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
 
+APPID = 'com.blogspot.bitwalk'
 
-class MyWindow(Gtk.Window):
 
-    def __init__(self):
-        Gtk.Window.__init__(self, title="テキストビュー")
-        self.set_default_size(200, 200)
-
-        scr = Gtk.ScrolledWindow()
-        self.add(scr)
+class Example(Gtk.Window):
+    def __init__(self, app):
+        Gtk.Window.__init__(
+            self,
+            application=app,
+            title='TextView',
+            width_request=200,
+            height_request=200,
+        )
 
         tv = Gtk.TextView()
         tv.set_wrap_mode(wrap_mode=Gtk.WrapMode.WORD)
-        scr.add(tv)
+
+        scr = Gtk.ScrolledWindow(child=tv)
+        self.set_child(scr)
 
 
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+class MyApplication(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self, application_id=APPID)
+
+    def do_activate(self):
+        win = Example(self)
+        win.present()
+
+
+def main():
+    app = MyApplication()
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
