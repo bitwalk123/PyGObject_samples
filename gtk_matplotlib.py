@@ -1,34 +1,79 @@
-# https://matplotlib.org/3.2.1/gallery/user_interfaces/embedding_in_gtk3_sgskip.html
+#!/usr/bin/env python
+# coding: utf-8
 import gi
 
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk
-
-import numpy as np
-
-from matplotlib.backends.backend_gtk3agg import FigureCanvasGTK3Agg as FigureCanvas
+from matplotlib.backends.backend_gtk4agg import (
+    FigureCanvasGTK4Agg as FigureCanvas
+)
 from matplotlib.figure import Figure
+import pandas as pd
 
-win = Gtk.Window()
-win.connect("delete-event", Gtk.main_quit)
-win.set_default_size(800, 600)
-win.set_title("Embedding in GTK")
+APPID = 'com.blogspot.bitwalk'
 
-f = Figure(figsize=(5, 4), dpi=100)
-a = f.add_subplot(111)
-t = np.arange(0.0, 3.0, 0.01)
-s = np.sin(2 * np.pi * t)
-a.plot(t, s)
 
-sw = Gtk.ScrolledWindow()
-win.add(sw)
-# A scrolled window border goes outside the scrollbars and viewport
-sw.set_border_width(10)
+def get_example_chart() -> Figure:
+    # example dataframe
+    df = pd.DataFrame({
+        'Sample': list(range(1, 11)),
+        'Y': [9.030, 8.810, 9.402, 8.664, 8.773, 8.774, 8.416, 9.101, 8.687, 8.767]
+    })
 
-canvas = FigureCanvas(f)  # a Gtk.DrawingArea
-canvas.set_size_request(800, 600)
-# sw.add_with_viewport(canvas)
-sw.add(canvas)
+    fig = Figure(dpi=100)
+    ax = fig.add_subplot(
+        title='Plot sample',
+        xlabel='Sample',
+        ylabel='Value',
+    )
+    ax.plot(
+        df['Sample'],
+        df['Y'],
+        color='red',
+        marker='o',
+        markersize=5,
+    )
+    ax.grid(True)
+    return fig
 
-win.show_all()
-Gtk.main()
+
+class Example(Gtk.Window):
+    def __init__(self, app):
+        Gtk.Window.__init__(
+            self,
+            application=app,
+            title='Matplotlib',
+            default_width=600,
+            default_height=500,
+        )
+
+        swin = Gtk.ScrolledWindow(
+            margin_top=2,
+            margin_bottom=2,
+            margin_start=2,
+            margin_end=2,
+        )
+        self.set_child(swin)
+
+        figure = get_example_chart()
+        canvas = FigureCanvas(figure)
+        # canvas.set_size_request(600, 480)
+        swin.set_child(canvas)
+
+
+class MyApplication(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self, application_id=APPID)
+
+    def do_activate(self):
+        win = Example(self)
+        win.present()
+
+
+def main():
+    app = MyApplication()
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
