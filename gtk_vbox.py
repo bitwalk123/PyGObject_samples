@@ -18,13 +18,13 @@ class Example(Gtk.Window):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(box)
 
-        but1 = Gtk.Button(label='1')
+        but1 = Gtk.Button(label='1', vexpand=True)
         box.append(but1)
 
-        but2 = Gtk.Button(label='2')
+        but2 = Gtk.Button(label='2', vexpand=True)
         box.append(but2)
 
-        but3 = Gtk.Button(label='3')
+        but3 = Gtk.Button(label='3', vexpand=True)
         box.append(but3)
 
 
