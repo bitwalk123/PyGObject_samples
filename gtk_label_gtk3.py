@@ -7,10 +7,10 @@ from gi.repository import Gtk
 class MyWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="ラベル")
+        Gtk.Window.__init__(self, title='Label')
         self.set_default_size(0, 0)
 
-        lab = Gtk.Label(label="これはラベルです。")
+        lab = Gtk.Label(label='これはラベルです。')
         self.add(lab)
 
 
