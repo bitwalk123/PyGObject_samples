@@ -14,13 +14,10 @@ APPID = 'com.blogspot.bitwalk'
 class Hello(Gtk.Window):
     def __init__(self, app):
         Gtk.Window.__init__(self, application=app, title="Hello World")
-        # Box layout
-        layout = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.set_child(layout)
-        # Button
+
         button = Gtk.Button(label='こんにちは、世界！')
         button.connect('clicked', self.on_button_clicked)
-        layout.append(button)
+        self.set_child(button)
 
     @staticmethod
     def on_button_clicked(widget: Gtk.Button):
