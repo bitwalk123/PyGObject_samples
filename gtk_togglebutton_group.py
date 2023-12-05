@@ -14,7 +14,7 @@ class Example(Gtk.Window):
         Gtk.Window.__init__(
             self,
             application=app,
-            title='ToggleButton'
+            title='ToggleButton (2)'
         )
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)

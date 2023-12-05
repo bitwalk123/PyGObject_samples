@@ -13,7 +13,7 @@ class Example(Gtk.Window):
         Gtk.Window.__init__(
             self,
             application=app,
-            title='チェックボタン (2)'
+            title='CheckButton (2)'
         )
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
