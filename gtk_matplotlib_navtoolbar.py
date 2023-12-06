@@ -54,12 +54,7 @@ class Example(Gtk.Window):
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(vbox)
 
-        swin = Gtk.ScrolledWindow(
-            margin_top=2,
-            margin_bottom=2,
-            margin_start=2,
-            margin_end=2,
-        )
+        swin = Gtk.ScrolledWindow()
         vbox.append(swin)
 
         figure = get_example_chart()
