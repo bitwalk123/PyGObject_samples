@@ -30,9 +30,9 @@ class Hello(Gtk.Window):
             title='Hello World'
         )
 
-        button = Gtk.Button(label='こんにちは、世界！')
-        button.connect('clicked', print_hello)
-        self.set_child(button)
+        but = Gtk.Button(label='こんにちは、世界！')
+        but.connect('clicked', print_hello)
+        self.set_child(but)
 
 
 class MyApplication(Gtk.Application):
