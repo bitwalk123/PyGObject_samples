@@ -64,7 +64,7 @@ class Example(Gtk.Window):
 
         figure = get_example_chart()
         canvas = FigureCanvas(figure)
-        canvas.set_size_request(500, 300) # set minimu size
+        canvas.set_size_request(500, 300)  # set minimum size
         swin.set_child(canvas)
 
         toolbar = NavigationToolbar(canvas)
