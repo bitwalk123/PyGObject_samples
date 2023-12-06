@@ -11,6 +11,17 @@ from gi.repository import Gtk
 APPID = 'com.blogspot.bitwalk'
 
 
+def print_hello(widget: Gtk.Button):
+    print(
+        '%s (GTK %s.%s.%s)' % (
+            widget.get_label(),
+            Gtk.MAJOR_VERSION,
+            Gtk.MINOR_VERSION,
+            Gtk.MICRO_VERSION
+        )
+    )
+
+
 class Hello(Gtk.Window):
     def __init__(self, app):
         Gtk.Window.__init__(
@@ -20,19 +31,8 @@ class Hello(Gtk.Window):
         )
 
         button = Gtk.Button(label='こんにちは、世界！')
-        button.connect('clicked', self.on_button_clicked)
+        button.connect('clicked', print_hello)
         self.set_child(button)
-
-    @staticmethod
-    def on_button_clicked(widget: Gtk.Button):
-        print(
-            '%s (GTK %s.%s.%s)' % (
-                widget.get_label(),
-                Gtk.MAJOR_VERSION,
-                Gtk.MINOR_VERSION,
-                Gtk.MICRO_VERSION
-            )
-        )
 
 
 class MyApplication(Gtk.Application):
